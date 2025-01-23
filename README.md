@@ -2,6 +2,7 @@
 
 Your task is to create a responsive and visually appealing webpage that displays a table of orders and includes functionality to filter the orders by their status.
 
+**You can see the project preview here:** [https://react-table-component-task.vercel.app/](https://react-table-component-task.vercel.app/) 🚀🚀
 
 ## Features 
 
