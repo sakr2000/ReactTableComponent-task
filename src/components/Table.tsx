@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpDown } from "lucide-react";
 import { useCallback, useMemo } from "react";
+import { cn } from "./lib/utils/cn";
 
 export type Column<T> = {
   header: string;
@@ -17,6 +18,7 @@ interface DataTableProps<T> {
     onSort: (key: keyof T) => void;
   };
   emptyMessage?: string;
+  striped?: boolean;
 }
 
 export default function Table<T extends { id: string | number }>({
@@ -24,6 +26,7 @@ export default function Table<T extends { id: string | number }>({
   columns,
   sortConfig,
   emptyMessage = "No data found",
+  striped = false,
 }: DataTableProps<T>) {
   const renderCell = useCallback((row: T, column: Column<T>) => {
     const value = row[column.accessorKey];
@@ -54,7 +57,7 @@ export default function Table<T extends { id: string | number }>({
   return (
     <div className="bg-background w-full overflow-hidden rounded-lg border">
       {/* Desktop View */}
-      <div className="hidden overflow-x-auto sm:block">
+      <div className="hidden min-w-[600px] overflow-x-auto sm:block">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b">
@@ -62,7 +65,7 @@ export default function Table<T extends { id: string | number }>({
                 <th
                   key={index}
                   className={`text-muted-foreground px-4 py-3 text-left text-xs font-medium tracking-wider uppercase ${
-                    column.sortable ? "hover:bg-muted/50 cursor-pointer" : ""
+                    column.sortable ? "cursor-pointer hover:bg-gray-100/50" : ""
                   }`}
                   onClick={() =>
                     column.sortable && sortConfig?.onSort(column.accessorKey)
@@ -86,8 +89,14 @@ export default function Table<T extends { id: string | number }>({
             </tr>
           </thead>
           <tbody className="divide-y">
-            {data.map((row) => (
-              <tr key={row.id} className="hover:bg-muted/50">
+            {data.map((row, index) => (
+              <tr
+                key={row.id}
+                className={cn("hover:bg-gray-300 dark:hover:bg-green-800", {
+                  "bg-gray-200/50 dark:bg-emerald-900/50":
+                    striped && index % 2 !== 0,
+                })}
+              >
                 {sortedColumns.map((column, index) => (
                   <td key={index} className="px-4 py-3">
                     {renderCell(row, column)}
