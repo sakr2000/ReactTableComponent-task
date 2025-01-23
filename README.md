@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+# Responsive Order Table with Filtering 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Your task is to create a responsive and visually appealing webpage that displays a table of orders and includes functionality to filter the orders by their status.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features 
 
-## Expanding the ESLint configuration
+1. **Fully responsive generic table**  that looks good on both desktop and mobile devices.
+2. A dropdown menu to **filter** the table based on the order status.
+3. A search bar to search orders by customer name or ID. Include a message (e.g., "No orders found") when the table is empty after filtering.
+4. Modern React best practices (e.g., functional components, hooks).
+5. A **"Sort by Date"** feature to sort orders by the `createdAt` field on table header clicked. (Also added sort by `ID` with columns can be marked as sortable )
+6. Light/Dark Themes with toggle button.
+7. Strong type checking using TS features 
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Project setup 
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone this repository using git : 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash 
+git clone https://github.com/sakr2000/ReactTableComponent-task.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Go to the cloned folder and install the project dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+cd ReactTableComponent-task
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+bun install
 ```
+
+> **Note**: I used [Bun](https://bun.sh/) as the package manager in this project. You can use [Npm](https://www.npmjs.com/) or any other package manager you prefer. 
+
+3. Run the development server:
+
+```bash
+bun run dev 
+```
+

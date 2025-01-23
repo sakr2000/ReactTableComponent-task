@@ -60,9 +60,11 @@ export default function App() {
   ];
 
   const filteredOrders = orders
+    // Filter the orders base on the selected status
     .filter((order) =>
       selectedStatus === "all" ? true : order.status === selectedStatus,
     )
+    // Filter the orders base on the search query (customer name or order id)
     .filter(
       (order) =>
         order.customerName
