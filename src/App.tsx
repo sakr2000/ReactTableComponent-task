@@ -15,6 +15,7 @@ const statusIcons = {
 
 export default function App() {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortConfig, setSortConfig] = useState<{
     key: keyof Order;
     direction: "asc" | "desc";
@@ -62,7 +63,14 @@ export default function App() {
     .filter((order) =>
       selectedStatus === "all" ? true : order.status === selectedStatus,
     )
-    // Sort the filtered orders by date
+    .filter(
+      (order) =>
+        order.customerName
+          .toLowerCase()
+          .includes(searchQuery.trim().toLowerCase()) ||
+        order.id.toString().includes(searchQuery.trim()),
+    )
+    // Sort the filtered orders by date base on the sortConfig state
     .sort((a, b) => {
       const dateA = new Date(a[sortConfig.key] as string).getTime();
       const dateB = new Date(b[sortConfig.key] as string).getTime();
@@ -77,19 +85,35 @@ export default function App() {
   };
 
   return (
-    <div className="bg-background flex min-h-screen flex-col items-center transition-colors">
+    <section className="bg-background flex min-h-screen flex-col items-center transition-colors">
       <div className="w-full flex-1 space-y-6 p-4 sm:mx-auto sm:max-w-6xl sm:p-8">
-        <div className="flex items-center justify-between max-sm:flex-col max-sm:gap-4">
+        <header className="flex items-center justify-between max-sm:flex-col max-sm:gap-4">
           <h1 className="text-2xl font-bold">Orders</h1>
           <div className="flex items-center gap-3">
-            <StatusDropdown
-              selectedStatus={selectedStatus}
-              onStatusChange={setSelectedStatus}
-            />
+            {/* Theme toggle to toggle between light and dark mode */}
             <ThemeToggle />
           </div>
+        </header>
+
+        <div className="flex w-full items-center justify-between gap-4 max-sm:flex-col">
+          {/* Search bar to filter orders base on customer name or order id */}
+          <div className="flex w-full grow items-center gap-2">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full rounded-md border px-3 py-2 text-sm shadow-sm outline-none hover:bg-gray-50 focus:ring-2 focus:ring-emerald-500 dark:bg-stone-950 dark:hover:bg-stone-800"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          {/* Status dropdown to filter orders base on status */}
+          <StatusDropdown
+            selectedStatus={selectedStatus}
+            onStatusChange={setSelectedStatus}
+          />
         </div>
 
+        {/* Table to display the filtered orders */}
         <Table
           data={filteredOrders}
           columns={columns}
@@ -102,6 +126,6 @@ export default function App() {
           striped
         />
       </div>
-    </div>
+    </section>
   );
 }
